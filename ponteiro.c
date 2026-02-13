@@ -9,11 +9,9 @@ int main() {
     // Conteúdo de 'var' = 25
     printf("Conteudo da variavel 'var': %d\n", var); 
     
-    // Endereco onde a variavel 'var' esta alocada = 0061FF1C
+    // Endereco onde a variavel 'var' esta alocada é 0061FF1C
     printf("Endereco de memoria onde esta armazenado o valor de 'var': %p\n", &var); 
     printf("\n");
-
-
 
 
 

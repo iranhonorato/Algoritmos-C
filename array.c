@@ -1,4 +1,5 @@
 #include <stdio.h> 
+#include <string.h>
 
 
 void arrays() {
@@ -19,5 +20,17 @@ void arrays() {
     // Strings em C sempre terminam com \0 (null terminator), então se você não colocar uma unidade a mais no tamanho 
     // terá de lidar com um overflow
     char nome[5] = "iran";
+    char nome2[] = "Bol";
 
+}
+
+
+int main() {
+    char nome[10] = "Bol";
+    char suf[] = "ivia";
+    strcat(nome, suf);
+    
+    printf("%s", nome);
+    
+    return 0;
 }

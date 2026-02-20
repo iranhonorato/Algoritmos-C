@@ -1,45 +1,43 @@
 #include <stdio.h>
 
-
 int main() {
-
-    // Declarando a variavel 'var' e armazenando o valor '25' nela
-    int var = 25;
-
-    // Conteúdo de 'var' = 25
-    printf("Conteudo da variavel 'var': %d\n", var); 
-    
-    // Endereco onde a variavel 'var' esta alocada é 0061FF1C
-    printf("Endereco de memoria onde esta armazenado o valor de 'var': %p\n", &var); 
+    int idade = 25;
+    printf("Minha idade eh %d anos\n", idade);
     printf("\n");
 
-
+    printf("'idade' eh uma variavel, uma variavel que armazena o valor '25'\n");
+    printf("Essa variavel, por sua vez, esta guardada em algum lugar na memoria da minha maquina\n");
+    printf("Esse endereco por acaso eh: %p\n", &idade);
+    printf("Logo, podemos dizer que o valor %d, esta armazenado no endereco %p\n", idade, &idade);
+    printf("\n");
 
     // Declarando o ponteiro 'ptr'
     int *ptr;
 
-    //  Atribuindo 'ptr' ao endereco de 'var'
-    ptr = &var;
+    //  Atribuindo a variavel 'ptr' ao endereco de 'idade'
+    ptr = &idade;
 
-    // Conteudo de 'ptr' = Endereco onde a variavel 'var' esta alocada, ou seja, 0061FF1C
+    // Conteudo de 'ptr' = Endereco onde a variavel 'idade' esta alocada, ou seja, 0061FF0C
+    printf("Declaramos um ponteiro 'ptr'\n");
     printf("Conteudo da variavel 'ptr': %p\n", ptr);
-
-    // Conteudo presente no endereco de memoria armazenado por 'ptr'= 25 
-    // (pois no enderaço 0061FF1C esta a variavel 'var' que assume o valor de 25)
-    printf("Conteudo do endereco apontado pelo ponteiro 'ptr': %d\n", *ptr);
-
-    // Endereco de memoria onde esta alocado o ponteiro 'ptr' = 0061FF18
-    printf("Endereco de memoria onde esta armazenado o valor de 'ptr': %p\n", &ptr);
+    printf("Esse ponteiro que declaramos esta armazenando o endereco de memoria onde a variavel 'idade' esta sendo guardada;\n");
+    printf("Logo, esse ponteiro consegue 'apontar' qual o valor armazenado naquele endereco de memoria;\n");
+    printf("Conteudo presente no endereco %p: %d", ptr, *ptr);
     printf("\n");
 
+    printf("Como 'ptr' se trata de uma variavel, ela tambem esta armazenada em algum lugar na memoria da minha maquina\n");
+    printf("Enderece onde esta armazenado a variavel 'ptr': %p\n", &ptr);
+    printf("\n");
 
+    printf("Observe o que acontece se mudarmos o conteudo da variavel 'idade'\n");
+    idade = 26; 
+    printf("%d eh o novo valor armazenado no endereco mesmo endereco %p", *ptr, ptr);
+    printf("\n");
 
-
-
-    // Quero mudar o conteudo de 'var' sem necessariamente utilizar 'var' 
-    *ptr = 777; 
-    printf("Conteudo do endereco apontado pelo ponteiro 'ptr': %d\n", *ptr);
-    printf("Conteudo da variavel 'var': %d\n", var);
+    printf("Outra coisa que podemos fazer eh mudar o conteudo da variavel mexendo apenas com o ponteiro\n");
+    *ptr = 777;
+    printf("Vamos ver o que aconteceu com a variavel 'idade'\n");
+    printf("Verificando conteudo da variavel idade: %d", idade);
 
     return 0;
 }

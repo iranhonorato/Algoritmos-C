@@ -1,67 +1,62 @@
 #include <stdio.h>
 #include <string.h>
 
-// Create a structure called myStructure
-struct myStructure {
-  int myNum;
-  char myLetter;
-  char myString[30];
-};
 
 
-// Para acessar a estrutura, você precisa criar uma variável para ela.
-// Utilize a struct palavra-chave dentro do main() método, seguida pelo nome da estrutura e, em seguida, pelo nome da variável da estrutura:
-void test() {
+int main() {  
 
-  // Create a structure variable of myStructure called s1
-  struct myStructure s1;
+  // Primeira forma de declarar uma struct 
+  struct Aluno {
+    int id;        // variáveis ou membros da struct
+    int nota;
+  };
 
-  // Para acessar os membros de uma estrutura, use a sintaxe de ponto (.):
-  s1.myNum = 7;
-  s1.myLetter = 'B';
 
-  // infelizmente, você não pode atribuir um valor a uma matriz dessa forma:
-  // s1.myString = "Some text"; 
-
-  // Forma correta
-  strcpy(s1.myString, "Some text");
+  // Primeira forma de acessar os membros de uma struct 
+  struct Aluno yuri;
+  yuri.id = 1;  
+  yuri.nota = 10;
   
 
-  // Print values
-  printf("My number: %d\n", s1.myNum);
-  printf("My letter: %c\n", s1.myLetter);
-  printf("My string: %s\n", s1.myString);
+  // Segunda forma de acessar os membros de uma struct 
+  struct Aluno iran = {2, 10};
+
+  printf("%s %s %d\n", yuri.id, yuri.nota);
+  printf("%s %s %d\n", iran.id, iran.nota);
+
+
+
   printf("\n");
 
 
 
-  // Como fazer tudo isso de uma forma mais clean 
-  struct myStructure s2 = {25, 'i', "hello world"};
-  printf("My number: %d\n", s2.myNum);
-  printf("My letter: %c\n", s2.myLetter);
-  printf("My string: %s\n", s2.myString);
-  printf("\n");
 
-  return;
-}
+  // Segunda forma de declarar uma struct
+  typedef struct {
+    int id;        // variáveis ou membros da struct
+    char disciplina[30];
+  } Professor;
 
 
-// Exemplo da vida real
-struct Car {
-  char brand[30];
-  char model[30];
-  int year;
-};
+  
+  Professor igor = {1, "Algoritmos"};
+  Professor toshi = {1, "DevLife"};
 
-int main() {
-  struct Car car1 = {"BMW", "X5", 1999};
-  struct Car car2 = {"Ford", "Mustang", 1969};
-  struct Car car3 = {"Toyota", "Corolla", 2011};
-
-
-  printf("%s %s %d\n", car1.brand, car1.model, car1.year);
-  printf("%s %s %d\n", car2.brand, car2.model, car2.year);
-  printf("%s %s %d\n", car3.brand, car3.model, car3.year);
-
+  printf("%s %s %d\n", igor.id, igor.disciplina);
+  printf("%s %s %d\n", toshi.id, toshi.disciplina);
   return 0;
+
+
+  // Observação: 
+  // Quando você se deparar com algo assim: 
+  typedef struct Antonio {
+
+  } Iran; 
+
+  // Basicamente "Antonio" é o nome original da struct e "Iran" é um Alias (apelido)
+  // Você pode declarar a struct como: struct Antonio pessoa 
+  // Ou você pode declarar dessa forma: Iran pessoa 
+
+
+
 }

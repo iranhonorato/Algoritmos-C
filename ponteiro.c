@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int main() {
+int ponteiros() {
     int idade = 25;
     // idade' eh uma variavel, uma variavel que armazena o valor '25'
     printf("Minha idade eh %d anos\n", idade);
@@ -28,4 +28,10 @@ int main() {
     // descobriremos que 'idade' agora é: 'idade' = 99
 
     return 0;
+}
+
+int main() {
+    int valor = 42;          // O dado real (O Tesouro)
+    int *ptr = &valor;       // Ponteiro simples: guarda o endereço de 'valor' (O Segurança)
+    int **pptr = &ptr;       // Ponteiro duplo: guarda o endereço de 'ptr' (O Chefe)
 }

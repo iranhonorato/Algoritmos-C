@@ -23,8 +23,10 @@ int main() {
 
 
 
+    // Criando apenas a "etiqueta" (ponteiro)
+    Aluno *iran; 
 
-    Aluno *iran; // Criando apenas a "etiqueta" (ponteiro)
+    // Alocação de memória dinâmica
     iran = malloc(sizeof(Aluno)); // Alocando memória manualmente para esse ponteiro ou iran = (Aluno *) malloc(sizeof(ALuno))
     
     // Perceba que nesse caso o acesso aos membros se dá através de "->"  

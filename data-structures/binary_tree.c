@@ -70,3 +70,60 @@ TreeNode *insercao_node(TreeNode *root, int key) {
 }
 
 
+int count_nodes(TreeNode *root) {
+    if(root == NULL) return 0;
+    return count_nodes(root->left) + count_nodes(root->right) + 1;
+}
+
+
+// int *idx precisa ser ponteiro, pois 
+// se você passasse apenas int idx (valor), 
+// cada vez que a função chamasse a si mesma, ela criaria uma cópia do número atual.
+void array_keys(TreeNode *root, int *idx, int *array) {
+    if (root == NULL) return;
+
+    // Quando o "trabalhador" da esquerda terminasse de preencher o array e somasse idx++, 
+    // essa alteração morreria com ele. Quando a execução voltasse para o "trabalhador" pai, 
+    // o idx dele ainda estaria no valor antigo.
+    array_keys(root->left, idx, array);
+    array[*idx] = root->key;
+    (*idx)++;
+    array_keys(root->right, idx, array);
+}
+
+
+TreeNode *build(int *array, int left, int right) {
+    if (left > right) return NULL;
+    
+    int mid = (right + left)/2;
+    TreeNode *node = malloc(sizeof(TreeNode));
+    node->key = array[mid];
+
+    node->left = build(array, left, mid-1);
+    node->right = build(array, mid+1, right);
+
+    return node;
+}
+
+
+void free_tree(TreeNode *root) {
+    if (root == NULL) return;
+    free_tree(root->left);
+    free_tree(root->right);
+    free(root);
+}
+
+TreeNode *abb_rebalance(TreeNode *root) {
+    if (root == NULL) return NULL;
+    int right = count_nodes(root);
+    int *array = malloc(right * sizeof(int));
+    int left = 0;
+
+    array_keys(root, &left, array);
+    
+    TreeNode *new_root = build(array, 0, right-1);
+    free(array);
+    free_tree(root);
+    return new_root;
+}
+

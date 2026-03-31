@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <limits.h>
 
 
 typedef struct Tree {
@@ -28,21 +29,21 @@ int busca_em_arvore(TreeNode *root, int val) {
 }
 
 
+// Propaga os limites [min, max) pela árvore:
+//   - subárvore esquerda: todas as chaves devem ser < root->key  → max = root->key
+//   - subárvore direita:  todas as chaves devem ser >= root->key → min = root->key
+static int arvore_valida_helper(TreeNode *root, int min, int max) {
+    if (root == NULL) return 1;
+
+    if (root->key < min || root->key >= max) return 0;
+
+    return arvore_valida_helper(root->left,  min,       root->key) &&
+           arvore_valida_helper(root->right, root->key, max);
+}
+
+
 int arvore_valida(TreeNode *root) {
-    if (root == NULL) {
-        return 1;
-    }
-    
-    if (root->left != NULL && root->left->key >= root->key) {
-        return 0; 
-    }
-
-    if (root->right != NULL && root->right->key < root->key) {
-        return 0;
-    }
-    
-
-    return abb_valida(root->left) && abb_valida(root->right);
+    return arvore_valida_helper(root, INT_MIN, INT_MAX);
 }
 
 

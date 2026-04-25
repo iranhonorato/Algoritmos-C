@@ -18,11 +18,6 @@ int main() {
     // - Ocupa espaço na Stack.
     // - Acesso: p.nome
     
-
-
-
-
-
     // Criando apenas a "etiqueta" (ponteiro)
     Aluno *iran; 
 

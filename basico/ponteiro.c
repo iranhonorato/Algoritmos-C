@@ -57,6 +57,56 @@ void secao_ponteiro_duplo() {
     //   - Matrizes dinamicas (int **matriz)
     //   - Modificar um ponteiro dentro de uma funcao
     //   - Arrays de strings (char **argv)
+
+    // -----------------------------------------------------------------
+    // MATRIZES COM PONTEIRO DUPLO
+    // -----------------------------------------------------------------
+
+    // Matriz estatica — tamanho fixo, alocada na stack
+    // int mat[3][4] decai para int (*mat)[4]: ponteiro para linha, nao int**
+    int mat_estatica[3][4];
+    for (int i = 0; i < 3; i++)
+        for (int j = 0; j < 4; j++)
+            mat_estatica[i][j] = i * 4 + j;  // mat[i][j] == *(*(mat+i)+j)
+
+    printf("\nmatriz estatica 3x4:\n");
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 4; j++)
+            printf("%2d ", mat_estatica[i][j]);
+        printf("\n");
+    }
+
+    // Matriz dinamica — tamanho definido em tempo de execucao, alocada no heap
+    // Passo 1: aloca array de ponteiros (cada ponteiro = uma linha)
+    int linhas = 3, colunas = 4;
+    int **mat = malloc(linhas * sizeof(int *));
+
+    // Passo 2: aloca cada linha individualmente
+    for (int i = 0; i < linhas; i++)
+        mat[i] = malloc(colunas * sizeof(int));
+
+    // Uso identico a matriz estatica: mat[i][j]
+    // mat[i][j]  equivale a  *(*(mat + i) + j)
+    for (int i = 0; i < linhas; i++)
+        for (int j = 0; j < colunas; j++)
+            mat[i][j] = i * colunas + j;
+
+    printf("\nmatriz dinamica 3x4:\n");
+    for (int i = 0; i < linhas; i++) {
+        for (int j = 0; j < colunas; j++)
+            printf("%2d ", mat[i][j]);
+        printf("\n");
+    }
+
+    // Como mat e int**, voce pode acessar via aritmetica de ponteiros:
+    printf("\nmat[1][2] via ponteiro: %d\n", *(*(mat + 1) + 2));  // mesmo que mat[1][2]
+
+    // Liberacao: libera cada linha antes de liberar o array de ponteiros
+    // (ordem inversa da alocacao — se fizer free(mat) primeiro, perde as referencias das linhas)
+    for (int i = 0; i < linhas; i++)
+        free(mat[i]);
+    free(mat);
+    mat = NULL;
 }
 
 // =============================================================================

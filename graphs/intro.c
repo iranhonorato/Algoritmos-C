@@ -20,7 +20,7 @@ static void dfs_visita(grafo *g, int v, int *visitado) {
     visitado[v] = 1;
 
     for (int prox_nodo = 0; prox_nodo < g->V; prox_nodo++) {
-        if (g->path[v][prox_nodo] != 0.0 && !visitado[prox_nodo])
+        if (g->edges[v][prox_nodo] != 0.0 && !visitado[prox_nodo])
             dfs_visita(g, prox_nodo, visitado);
     }
 }

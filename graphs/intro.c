@@ -35,8 +35,3 @@ void busca_em_profundidade(grafo *g) {
 
     free(visitado);
 }
-
-
-void busca_em_largura(grafo *grafo) {
-
-}

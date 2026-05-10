@@ -17,9 +17,9 @@ heap *criar_heap(int capacidade) {
     return h;
 }
 
-void liberar_heap(heap *h) {
-    free(h->array);
-    free(h);
+void liberar_heap(heap **h) {
+    free((*h)->array);
+    free((*h));
     return;
 }
 

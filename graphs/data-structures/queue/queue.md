@@ -1,90 +1,103 @@
-# Double-Ended Queue (Deque)
+# Fila Circular (Circular Queue)
 
 ## O que é
 
-Um **deque** (double-ended queue) é uma fila que permite inserções e remoções em ambas as extremidades — tanto no início (head) quanto no final (tail). É mais flexível que uma fila comum (FIFO) ou pilha (LIFO).
+Uma **fila circular** é uma estrutura FIFO (First In, First Out) implementada sobre um array circular. Elementos entram pelo final (tail) e saem pelo início (head). O array circular evita deslocamentos desnecessários ao reutilizar posições liberadas.
 
 ## Características
 
-- **Inserção dupla:** é possível adicionar elementos no início ou no final.
-- **Remoção dupla:** é possível remover elementos do início ou do final.
-- **Flexibilidade:** pode ser usada como fila (FIFO), pilha (LIFO) ou estrutura mista.
-- **Acesso eficiente:** O(1) para todas as operações nas extremidades.
+- **FIFO:** o primeiro elemento inserido é o primeiro a sair.
+- **Array circular:** `head` e `tail` avançam usando módulo, sem deslocar elementos.
+- **Capacidade fixa:** nesta implementação, a fila não cresce — inserções em fila cheia são ignoradas.
+- **Acesso O(1):** inserção e remoção em tempo constante.
+
+## Struct
+
+```c
+typedef struct Deque {
+    int *array;
+    int head;      // índice do primeiro elemento
+    int size;      // quantidade de elementos
+    int capacity;  // capacidade total do array
+} deque;
+```
 
 ## Operações e complexidade
 
-| Operação          | Complexidade |
-|-------------------|-------------|
-| Inserir no head  | O(1)        |
-| Inserir no tail   | O(1)        |
-| Remover do head  | O(1)        |
-| Remover do tail   | O(1)        |
-| Ver primeiro      | O(1)        |
-| Ver último        | O(1)        |
-| Redimensionar     | O(n)        |
+| Operação        | Complexidade |
+|-----------------|-------------|
+| Inserir (tail)  | O(1)        |
+| Remover (head)  | O(1)        |
+| Ver tamanho     | O(1)        |
+| Criar           | O(1)        |
+| Liberar         | O(1)        |
 
-## Implementação Circular
+## Como funciona
 
-O deque é implementado usando um **array circular** para eficiência:
-- `head`: índice do primeiro elemento
-- `tail`: índice do último elemento
-- `size`: quantidade de elementos
-- `capacity`: capacidade total do array
+### Inserir no final
 
-Quando o array fica cheio, é redimensionado para o dobro da capacidade.
+O índice de inserção é calculado como `(head + size) % capacity`, que "dá a volta" no array quando chega ao fim:
 
-## Operações principais
-
-### Inserir no final (tail)
 ```
-1. Verifica se está cheio → redimensiona se necessário
-2. Move tail para a próxima posição (circular)
-3. Insere o valor
-4. Incrementa size
+1. Se cheio (size == capacity) → ignora
+2. idx = (head + size) % capacity
+3. array[idx] = val
+4. size++
 ```
 
-### Inserir no início (head)
+### Remover do início
+
+Lê o valor em `head` e avança o ponteiro de cabeça circularmente:
+
 ```
-1. Verifica se está cheio → redimensiona se necessário
-2. Move head para a posição anterior (circular)
-3. Insere o valor
-4. Incrementa size
+1. Se vazio (size == 0) → retorna
+2. val = array[head]
+3. head = (head + 1) % capacity
+4. size--
+5. Se size == 0 → reseta head para 0
+6. Retorna val
 ```
 
-### Remover do início (head)
+## Visualização
+
 ```
-1. Verifica se está vazio
-2. Guarda o valor
-3. Move head para a próxima posição
-4. Decrementa size
-5. Retorna o valor
+capacity = 5, head = 1, size = 3
+
+índices:  [0] [1] [2] [3] [4]
+valores:  [ ] [A] [B] [C] [ ]
+               ^           ^
+             head        próxima inserção em (1+3)%5 = 4
 ```
 
-### Remover do final (tail)
+Após remover A:
 ```
-1. Verifica se está vazio
-2. Guarda o valor
-3. Move tail para a posição anterior
-4. Decrementa size
-5. Retorna o valor
+índices:  [0] [1] [2] [3] [4]
+valores:  [ ] [ ] [B] [C] [ ]
+                   ^
+                 head = 2, size = 2
 ```
+
+## Funções implementadas
+
+| Função            | Descrição                                      |
+|-------------------|------------------------------------------------|
+| `criar_deque`     | Aloca a fila com a capacidade especificada     |
+| `liberar_deque`   | Libera memória e anula o ponteiro (`**`)       |
+| `deque_size`      | Retorna o número de elementos                  |
+| `inserir`         | Adiciona um elemento no final                  |
+| `deletar`         | Remove e retorna o elemento do início          |
+| `imprimir_deque`  | Imprime todos os elementos em ordem            |
+
+## Diferença entre Queue e Deque
+
+Esta implementação é uma **queue simples** (FIFO), apesar do nome `deque` na struct. Um deque completo permitiria inserção e remoção nas **duas** extremidades. Aqui só há:
+
+- `inserir` → sempre no final (tail)
+- `deletar` → sempre no início (head)
 
 ## Aplicações comuns
 
-- **Sliding window:** problemas que precisam acessar elementos nas duas pontas.
-- **Undo/Redo:** deque armazena historicamente ações.
-- **Escalonamento de tarefas:** tarefas podem ser adicionadas/removidas de ambas as extremidades.
-- **Processamento de buffers:** adiciona no final, processa do início.
-- **Palindromo:** verifica lendo simultaneamente do início e fim.
-
-## Representação em C
-
-```c
-typedef struct {
-    int *array;
-    int head;   // índice do primeiro elemento
-    int tail;    // índice do último elemento
-    int size;    // quantidade de elementos
-    int capacity; // capacidade total
-} Deque;
-```
+- **BFS (busca em largura):** a fila é a estrutura central do algoritmo.
+- **Processamento em ordem:** tarefas são processadas na ordem em que chegam.
+- **Buffer de dados:** produtor insere no final, consumidor retira do início.
+- **Escalonamento FIFO:** sistemas operacionais para gerenciar processos.

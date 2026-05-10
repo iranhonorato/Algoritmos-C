@@ -52,13 +52,13 @@ void inserir(deque *fila, int val) {
 
 
 int deletar(deque *fila) {
-    if (fila->size == 0) return;
+    if (fila->size == 0) return 0;
     
     int val = fila->array[fila->head];
 
     int idx = (fila->head + 1) % fila->capacity;
     
-    fila->head = fila->array[idx];
+    fila->head = idx;
     fila->size--;
 
     if (fila->size == 0) {
